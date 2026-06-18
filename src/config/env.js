@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
+import AppError from '../utils/AppError.js';
 const requiredEnvVars = [
     "PORT",
     "MONGO_URI",
@@ -9,8 +9,9 @@ const requiredEnvVars = [
 
 requiredEnvVars.forEach((envVar) => {
     if(!process.env[envVar]){
-        throw new Error (
-            `missing required env var ${envVar}`
+        throw new AppError (
+            `missing required env var ${envVar}`,
+            500
         )
     }
 })
