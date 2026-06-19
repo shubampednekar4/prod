@@ -3,7 +3,7 @@ dotenv.config();
 import AppError from '../utils/AppError.js';
 const requiredEnvVars = [
     "PORT",
-    "MONGO_URI",
+    "DATABASE_URL",
     "NODE_ENV"
 ];
 
@@ -18,7 +18,7 @@ requiredEnvVars.forEach((envVar) => {
 
 const config = {
     PORT : process.env.PORT,
-    MONGO_URI : process.env.MONGO_URI,
+    DATABASE_URL : process.env.DATABASE_URL,
     NODE_ENV : process.env.NODE_ENV
 }
 
