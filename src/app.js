@@ -7,6 +7,8 @@ import AppError from './utils/AppError.js';
 import rateLimiter from './middleware/rateLimiter.js';
 import config from './config/env.js';
 
+import customerRouter from './modules/customer/customer.routes.js';
+
 const app = express();
 app.use(morganMiddleware);
 // app.disable("x-powered-by");
@@ -35,6 +37,7 @@ app.get("/error",(req,res, next) => {
     )
 })
 
+app.use("/api/v1/customers",customerRouter);
 app.use(errorHandler);
 
 export default app;
