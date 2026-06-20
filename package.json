@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "seed": "node prisma/seed.js",
     "test": "node --test",
     "dev": "npx nodemon src/server.js",
     "start": "node src/server.js"
