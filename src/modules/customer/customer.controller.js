@@ -17,7 +17,14 @@ export const createCustomerController = catchAsync(
 
 export const getCustomerController = catchAsync(
   async ( req, res) => {
-    const customerlist = await getCustomers();
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const customerlist = await getCustomers(
+      page,
+      limit
+    );
     return sendSuccess(
       res,
       200,
