@@ -8,6 +8,7 @@ import rateLimiter from './middleware/rateLimiter.js';
 import config from './config/env.js';
 
 import customerRouter from './modules/customer/customer.routes.js';
+import productRouter from './modules/product/product.routes.js';
 
 const app = express();
 app.use(morganMiddleware);
@@ -38,6 +39,7 @@ app.get("/error",(req,res, next) => {
 })
 
 app.use("/api/v1/customers",customerRouter);
+app.use("/api/v1/product", productRouter);
 app.use(errorHandler);
 
 export default app;

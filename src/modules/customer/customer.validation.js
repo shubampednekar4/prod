@@ -9,5 +9,5 @@ export const createCustomerSchema = Joi.object({
 export const updateCustomerSchema = Joi.object({
     name : Joi.string().trim(),
     email : Joi.string().trim(),
-    phone : Joi.string().allow("",null).min(1)
-})
+    phone : Joi.string().allow("",null)
+}).min(1)

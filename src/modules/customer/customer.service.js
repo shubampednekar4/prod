@@ -85,12 +85,12 @@ export const updateCustomer = async (id, customerData) => {
 }
 
 export const deleteCustomer = async (id) => {
-    const custommer = await prisma.customer.findUnique({
+    const customer = await prisma.customer.findUnique({
         where : {
             id
         }
     })
-    if(!custommer.email){
+    if(!customer.email){
         throw new AppError(
             'Customer not found',
             404
