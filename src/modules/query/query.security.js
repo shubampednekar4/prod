@@ -19,6 +19,8 @@ const ALLOWED_TABLES = [
   "order_items",
 ];
 
+const MAX_LIMIT = 100;
+
 export const validateGeneratedSQL = (sql) => {
 
   const normalizedSql =
@@ -71,12 +73,19 @@ for (const keyword of FORBIDDEN_KEYWORDS) {
 
 export const enforceLimit = (sql) => {
 
-  const normalizedSql =
-    sql.toUpperCase();
+  const limitMatch = sql.match(/LIMIT\s+(\d+)/i);
 
-  if (!normalizedSql.includes("LIMIT")) {
-    return `${sql} LIMIT 100`;
+  if (!limitMatch) {
+    return `${sql} LIMIT ${MAX_LIMIT}`;
   }
 
+  const requestedLimit = Number(limitMatch[1]);
+
+  if (requestedLimit > MAX_LIMIT) {
+    throw new AppError(
+      `LIMIT cannot exceed ${MAX_LIMIT}`,
+      400
+    );
+  }
   return sql;
 };
