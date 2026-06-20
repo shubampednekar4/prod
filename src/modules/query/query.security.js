@@ -74,7 +74,6 @@ for (const keyword of FORBIDDEN_KEYWORDS) {
 export const enforceLimit = (sql) => {
 
   const limitMatch = sql.match(/LIMIT\s+(\d+)/i);
-
   if (!limitMatch) {
     return `${sql} LIMIT ${MAX_LIMIT}`;
   }

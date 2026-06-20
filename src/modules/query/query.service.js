@@ -1,6 +1,7 @@
 import prisma from "../../config/prisma.js";
 import AppError from "../../utils/AppError.js";
-import { generateSQL } from "../../services/gemini.service.js";
+// import { generateSQL } from "../../services/gemini.service.js";
+import { generateSQL } from "../../services/groq.service.js";
 import { SQL_SYSTEM_PROMPT } from "./query.prompt.js";
 
 import { validateGeneratedSQL,enforceLimit, validateAllowedTables} from "./query.security.js";
@@ -22,7 +23,6 @@ export const executeNaturalLanguageQuery = async (naturalLanguageQuery) => {
         400
     );
     }
-
     let generatedSQL =
     aiResponse.sql.trim();
 
@@ -31,7 +31,7 @@ export const executeNaturalLanguageQuery = async (naturalLanguageQuery) => {
       generatedSQL
     );
 
-    generatedSQL = validateAllowedTables(generatedSQL);
+    validateAllowedTables(generatedSQL);
     generatedSQL = enforceLimit(generatedSQL);
     
 
@@ -45,6 +45,7 @@ export const executeNaturalLanguageQuery = async (naturalLanguageQuery) => {
         );
 
     } catch (error) {
+      logger.error(error);
       throw new AppError(
         "Failed to execute generated query",
         400

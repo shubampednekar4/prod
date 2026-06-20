@@ -275,4 +275,4 @@ The AI query module includes several safety layers:
 
 ## Author
 
-Shubham Pednekar
+Shubam Pednekar
