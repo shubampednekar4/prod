@@ -10,3 +10,15 @@ export const createOrderSchema = Joi.object({
         })
     ).min(1).max(5).required()
 })
+
+export const updateOrderStatusSchema = Joi.object({
+    status: Joi.string()
+        .valid(
+            "PENDING",
+            "CONFIRMED",
+            "SHIPPED",
+            "DELIVERED",
+            "CANCELLED"
+        )
+        .required()
+});

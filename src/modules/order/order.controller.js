@@ -45,3 +45,22 @@ export const cancelOrderController =
       result
     );
   });
+
+export const updateOrderStatusController =
+    catchAsync(async (req, res) => {
+
+        const { status } = req.body;
+
+        const order =
+            await updateOrderStatus(
+                Number(req.params.id),
+                status
+            );
+
+        return sendSuccess(
+            res,
+            200,
+            "Order status updated successfully",
+            order,
+        );
+    });

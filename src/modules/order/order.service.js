@@ -183,6 +183,16 @@ export const cancelOrder = async (id) => {
       400
     );
   }
+  if (
+    !["PENDING", "CONFIRMED"].includes(
+        order.status
+    )
+) {
+    throw new AppError(
+        "Only pending or confirmed orders can be cancelled",
+        409
+    );
+}
 
   await prisma.$transaction(
     async (tx) => {
@@ -216,4 +226,69 @@ export const cancelOrder = async (id) => {
     message:
       "Order cancelled successfully",
   };
+};
+
+export const updateOrderStatus = async (
+    id,
+    status
+) => {
+
+    const order = await prisma.order.findUnique({
+        where: {
+            id
+        }
+    });
+
+    if (!order) {
+        throw new AppError(
+            "Order not found",
+            404
+        );
+    }
+
+    const allowedTransitions = {
+        PENDING: [
+            "CONFIRMED",
+            "CANCELLED"
+        ],
+
+        CONFIRMED: [
+            "SHIPPED",
+            "CANCELLED"
+        ],
+
+        SHIPPED: [
+            "DELIVERED"
+        ],
+
+        DELIVERED: [],
+
+        CANCELLED: []
+    };
+
+    const allowed =
+        allowedTransitions[
+            order.status
+        ];
+
+    if (
+        !allowed.includes(status)
+    ) {
+        throw new AppError(
+            `Cannot change status from ${order.status} to ${status}`,
+            400
+        );
+    }
+
+    const updatedOrder =
+        await prisma.order.update({
+            where: {
+                id
+            },
+            data: {
+                status
+            }
+        });
+
+    return updatedOrder;
 };
