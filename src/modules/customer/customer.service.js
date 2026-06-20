@@ -97,10 +97,10 @@ export const deleteCustomer = async (id) => {
             404
         )
     }
-    
+
     const orderCount = await  prisma.order.count({
         where : {
-            productId : Number(id)
+            customerId : Number(id)
         }
     })
     
