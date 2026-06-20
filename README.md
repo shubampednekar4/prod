@@ -116,7 +116,7 @@ Create a `.env` file in the root directory.
 ```env
 PORT=8080
 
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/mini_ecommerce
+DATABASE_URL=postgresql://postgres:<PASSWORD>@localhost:5432/mini_ecommerce
 
 GEMINI_API_KEY=your_gemini_api_key
 ```
