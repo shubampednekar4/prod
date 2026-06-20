@@ -85,6 +85,7 @@ export const updateCustomer = async (id, customerData) => {
 }
 
 export const deleteCustomer = async (id) => {
+
     const customer = await prisma.customer.findUnique({
         where : {
             id
@@ -96,6 +97,21 @@ export const deleteCustomer = async (id) => {
             404
         )
     }
+    
+    const orderCount = await  prisma.order.count({
+        where : {
+            productId : Number(id)
+        }
+    })
+    
+    if(orderCount > 0){
+        throw new AppError(
+            'cannot delete customer with existing order',
+            409
+        )
+    }
+
+
     await prisma.customer.delete({
         where : {
             id

@@ -91,6 +91,7 @@ export const updateProduct = async (id, productData) => {
 }
 
 export const deleteProduct = async (id) => {
+
     const product = await prisma.product.findUnique({
         where : {
             id
@@ -102,6 +103,20 @@ export const deleteProduct = async (id) => {
             404
         )
     }
+    
+    const orderItemCount = await prisma.orderItem.count({
+        where : {
+            productId : id
+        }
+    })
+
+    if(orderItemCount > 0){
+        throw new AppError(
+            "Cannot delete product because it is referenced by existing orders",
+            409
+        )
+    }
+
     await prisma.product.delete({
         where : {
             id

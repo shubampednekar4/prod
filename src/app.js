@@ -9,6 +9,7 @@ import config from './config/env.js';
 
 import customerRouter from './modules/customer/customer.routes.js';
 import productRouter from './modules/product/product.routes.js';
+import orderRouter from './modules/order/order.routes.js';
 
 const app = express();
 app.use(morganMiddleware);
@@ -40,6 +41,7 @@ app.get("/error",(req,res, next) => {
 
 app.use("/api/v1/customers",customerRouter);
 app.use("/api/v1/product", productRouter);
+app.use("/api/v1/order",orderRouter)
 app.use(errorHandler);
 
 export default app;
