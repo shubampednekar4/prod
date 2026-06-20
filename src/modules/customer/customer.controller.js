@@ -1,6 +1,6 @@
 import catchAsync from "../../utils/catchAsync.js";
 import {sendSuccess} from "../../utils/apiResponse.js";
-import { createCustomer } from "./customer.service.js";
+import { createCustomer, deleteCustomer, getCustomerById, getCustomers, updateCustomer } from "./customer.service.js";
 
 export const createCustomerController = catchAsync(
   async (req, res) => {
@@ -14,3 +14,51 @@ export const createCustomerController = catchAsync(
     );
   }
 );
+
+export const getCustomerController = catchAsync(
+  async ( req, res) => {
+    const customerlist = await getCustomers();
+    return sendSuccess(
+      res,
+      200,
+      'Customer Fethced successfully',
+      customerlist
+    )
+  }
+)
+
+export const getCustomerByIdController = catchAsync(
+  async( req, res) => {
+    const customer = await getCustomerById(Number(req.params.id));
+    return sendSuccess(
+      res,
+      200,
+      'Customer fetched',
+      customer
+    )
+  }
+)
+
+export const updateCustomerController = catchAsync(
+  async ( req, res) => {
+    const customer = await updateCustomer(Number(req.params.id), req.body);
+    return sendSuccess(
+      res, 
+      301,
+      'Customer updated',
+      customer
+    )
+  }
+)
+
+export const deleteCustomerController = catchAsync(
+  async( req, res) => {
+    await deleteCustomer(Number(req.params.id))
+    return sendSuccess(
+      res,
+      200,
+      'Customer deleted',
+      null
+    )
+  }
+)
