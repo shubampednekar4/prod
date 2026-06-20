@@ -3,7 +3,7 @@ import AppError from "../../utils/AppError.js";
 import { generateSQL } from "../../services/gemini.service.js";
 import { SQL_SYSTEM_PROMPT } from "./query.prompt.js";
 
-import { validateGeneratedSQL,enforceLimit} from "./query.security.js";
+import { validateGeneratedSQL,enforceLimit, validateAllowedTables} from "./query.security.js";
 import logger from "../../utils/logger.js";
 
 
@@ -31,8 +31,10 @@ export const executeNaturalLanguageQuery = async (naturalLanguageQuery) => {
       generatedSQL
     );
 
-    generatedSQL =
-      enforceLimit(generatedSQL);
+    generatedSQL = validateAllowedTables(generatedSQL);
+    generatedSQL = enforceLimit(generatedSQL);
+    
+
     let results;
     logger.info(`Generated SQL: ${generatedSQL}`);
 

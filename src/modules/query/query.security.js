@@ -89,3 +89,36 @@ export const enforceLimit = (sql) => {
   }
   return sql;
 };
+
+export const validateAllowedTables = (sql) => {
+
+  const tables =
+    extractTables(sql);
+
+  for (const table of tables) {
+
+    if (
+      !ALLOWED_TABLES.includes(table)
+    ) {
+      throw new AppError(
+        `Access to table '${table}' is not allowed`,
+        400
+      );
+    }
+  }
+
+  return true;
+};
+
+const extractTables = (sql) => {
+
+  const matches = [
+    ...sql.matchAll(
+      /\b(?:FROM|JOIN)\s+([a-zA-Z_][a-zA-Z0-9_]*)/gi
+    )
+  ];
+
+  return matches.map(
+    match => match[1].toLowerCase()
+  );
+};
