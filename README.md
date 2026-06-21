@@ -186,6 +186,10 @@ node --test
 
 ---
 
+---
+API Definations
+All supported api  definations yaml file are added in api-definations folder
+---
 ## AI Query Security
 
 The AI query module includes several safety layers:
