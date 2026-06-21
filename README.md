@@ -187,8 +187,23 @@ node --test
 ---
 
 ---
+
+## Postman Collection Import (Quick Testing)
+
+To make reviewing and testing the API seamless, a pre-configured Postman Collection file containing all endpoints (with sample request bodies) is included in the root directory.
+
+### How to use it:
+1. Locate the file named `postman/mini-ecommerce.postman_collection.json` in the root of this project.
+2. Open **Postman**.
+3. Click the **Import** button in the top-left sidebar workspace.
+4. Drag and drop the `mini-ecommerce.postman_collection.json` file into the upload area, or choose **Select Files** to find it.
+5. Click **Import** to confirm.
+
+The collection will create a folder structure matching the API modules (`Customer`, `Products`, `Orders`, `AI Query Module`) with valid sample data ready to fire instantly!
+
+---
 API Definations
-All supported api  definations yaml file are added in api-definations folder
+All supported api  definations yaml file are added in api-definations folder. 
 ---
 ## AI Query Security
 
