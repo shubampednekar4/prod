@@ -25,7 +25,7 @@ orders
 - id
 - "customerId"
 - "orderDate"
-- status
+- status enum OrderStatus {PENDING,CONFIRMED,SHIPPED,DELIVERED,CANCELLED}
 - "totalAmount"
 - "createdAt"
 - "updatedAt"

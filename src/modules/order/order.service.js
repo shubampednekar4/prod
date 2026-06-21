@@ -75,8 +75,6 @@ export const createOrder = async (orderData) => {
   const order = await prisma.$transaction(
     async (tx) => {
 
-      // Create Order
-
       const createdOrder =
         await tx.order.create({
           data: {
@@ -86,8 +84,6 @@ export const createOrder = async (orderData) => {
           },
         });
 
-      // Bulk Create Order Items
-
       await tx.orderItem.createMany({
         data: orderItemsData.map(
           (item) => ({
@@ -96,8 +92,6 @@ export const createOrder = async (orderData) => {
           })
         ),
       });
-
-      // Update Inventory
 
       for (const item of items) {
         await tx.product.update({
@@ -111,8 +105,6 @@ export const createOrder = async (orderData) => {
           },
         });
       }
-
-      // Return Complete Order
 
       return tx.order.findUnique({
         where: {

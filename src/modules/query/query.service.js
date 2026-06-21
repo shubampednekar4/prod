@@ -1,62 +1,54 @@
 import prisma from "../../config/prisma.js";
 import AppError from "../../utils/AppError.js";
-// import { generateSQL } from "../../services/gemini.service.js";
 import { generateSQL } from "../../services/groq.service.js";
 import { SQL_SYSTEM_PROMPT } from "./query.prompt.js";
-
-import { validateGeneratedSQL,enforceLimit, validateAllowedTables} from "./query.security.js";
+import { 
+  validateGeneratedSQL, 
+  enforceLimit, 
+  validateAllowedTables, 
+  validateAllowedColumns 
+} from "./query.security.js";
 import logger from "../../utils/logger.js";
 
-
 export const executeNaturalLanguageQuery = async (naturalLanguageQuery) => {
+  const aiResponse = await generateSQL(
+    SQL_SYSTEM_PROMPT,
+    naturalLanguageQuery
+  );
 
-    const aiResponse =
-    await generateSQL(
-        SQL_SYSTEM_PROMPT,
-        naturalLanguageQuery
-    );
-
-    if (!aiResponse.sql) {
+  if (!aiResponse.sql) {
     throw new AppError(
-        aiResponse.reasoning ||
-        "Unable to generate query",
-        400
+      aiResponse.reasoning || "The AI couldn't generate a valid database query for this request.",
+      400
     );
-    }
-    let generatedSQL =
-    aiResponse.sql.trim();
+  }
 
+  let generatedSQL = aiResponse.sql.trim();
 
-    validateGeneratedSQL(
-      generatedSQL
+  validateGeneratedSQL(generatedSQL);
+  validateAllowedTables(generatedSQL);
+  validateAllowedColumns(generatedSQL); 
+  
+  generatedSQL = enforceLimit(generatedSQL);
+
+  logger.info(`Generated SQL passed firewall: ${generatedSQL}`);
+
+  let results;
+  try {
+    results = await prisma.$queryRawUnsafe(generatedSQL);
+  } catch (error) {
+    logger.error(`Database Runtime Execution Error: ${error.message} on query: ${generatedSQL}`);
+    throw new AppError(
+      "The generated database query syntax was invalid or failed execution.",
+      400
     );
+  }
 
-    validateAllowedTables(generatedSQL);
-    generatedSQL = enforceLimit(generatedSQL);
-    
-
-    let results;
-    logger.info(`Generated SQL: ${generatedSQL}`);
-
-    try {
-      results =
-        await prisma.$queryRawUnsafe(
- generatedSQL
-        );
-
-    } catch (error) {
-      logger.error(error);
-      throw new AppError(
-        "Failed to execute generated query",
-        400
-      );
-    }
-
-    return {
-      naturalLanguageQuery,
-      generatedSQL,
+  return {
+    naturalLanguageQuery,
+    generatedSQL,
     reasoning: aiResponse.reasoning,
-      results,
-      rowCount: results.length,
-    };
+    results,
+    rowCount: results.length,
   };
+};

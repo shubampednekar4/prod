@@ -1,13 +1,13 @@
 import prisma from "../../config/prisma.js";
 import AppError from "../../utils/AppError.js";
 export const createCustomer = async (customerData) => {
-    const existingCustomer = prisma.customer.findUnique({
+    const existingCustomer = await prisma.customer.findUnique({
         where : {
             email : customerData.email
         }
     })
 
-    if(existingCustomer.email){
+    if(existingCustomer){
         throw new AppError(
             'Email already exists', 409
         )
@@ -17,10 +17,7 @@ export const createCustomer = async (customerData) => {
     })
 }
 
-export const getCustomers = async (
-  page = 1,
-  limit = 10
-) => {
+export const getCustomers = async (page = 1, limit = 10) => {
 
   const skip = (page - 1) * limit;
 
@@ -69,7 +66,7 @@ export const updateCustomer = async (id, customerData) => {
         }
     })
 
-    if(!existingCustomer.email){
+    if(!existingCustomer){
         throw new AppError(
             'customer not found',
             404
@@ -91,7 +88,7 @@ export const deleteCustomer = async (id) => {
             id
         }
     })
-    if(!customer.email){
+    if(!customer){
         throw new AppError(
             'Customer not found',
             404

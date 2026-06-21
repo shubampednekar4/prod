@@ -5,7 +5,7 @@ const requiredEnvVars = [
     "PORT",
     "DATABASE_URL",
     "NODE_ENV",
-    "GEMINI_API_KEY"
+    "GROQ_API_KEY"
 ];
 
 requiredEnvVars.forEach((envVar) => {
@@ -21,7 +21,7 @@ const config = {
     PORT : process.env.PORT,
     DATABASE_URL : process.env.DATABASE_URL,
     NODE_ENV : process.env.NODE_ENV,
-    GEMINI_API_KEY : process.env.GEMINI_API_KEY
+    GROQ_API_KEY : process.env.GROQ_API_KEY
 }
 
 export default config;
