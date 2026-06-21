@@ -1,0 +1,17 @@
+method: post
+url: http://localhost:8080/api/v1/product
+requestBody:
+  type: application/json
+  data: "{\r
+
+    \    \"name\" : \"Shirt\",\r
+
+    \    \"description\" : \"Cotton shirt with long sleeves and white color\",\r
+
+    \    \"category\" : \"Clothing\",\r
+
+    \    \"price\" : 100,\r
+
+    \    \"stockQuantity\" : 10\r
+
+    }"

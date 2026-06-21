@@ -4,10 +4,7 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
 
-export const generateSQL = async (
-  systemPrompt,
-  userQuery
-) => {
+export const generateSQL = async (systemPrompt,userQuery) => {
 
   const response =
     await ai.models.generateContent({

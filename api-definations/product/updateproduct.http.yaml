@@ -1,0 +1,18 @@
+method: put
+url: http://localhost:8080/api/v1/product/1
+requestBody:
+  type: application/json
+  data: "{\r
+
+    \    \"name\" : \"HP Laptop\",\r
+
+    \    \"description\" : \"Brand new hp laptop with 400 nots brightness and
+    amd processor with integrated graphics card\",\r
+
+    \    \"category\" : \"electronics\",\r
+
+    \    \"price\" : 599.99,\r
+
+    \    \"stockQuantity\" : 100\r
+
+    }"
