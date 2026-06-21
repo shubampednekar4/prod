@@ -91,6 +91,29 @@ Before running the project make sure you have:
 git clone <repository-url>
 cd mini-ecommerce
 ```
+## Verifying PostgreSQL Installation
+
+Before proceeding with the database setup, ensure that PostgreSQL is installed and running on your machine. You can verify it using your terminal:
+
+### 1. Check CLI Tool Version
+Run the following command to check if the PostgreSQL client CLI (`psql`) is available:
+```bash
+psql --version
+
+2. Verify Database Connection & Service Status
+Ensure the PostgreSQL server service is up and running by attempting a connection:
+
+macOS / Linux / Windows:
+
+Bash
+psql -U postgres -c "SELECT version();"
+(You will be prompted to enter your PostgreSQL root password)
+
+Alternatively, check service status directly:
+
+macOS (Homebrew): brew services list
+Linux (systemd): sudo systemctl status postgresql
+Windows: Open services.msc and verify that the postgresql-x64 service status is Running.
 
 ### 2. Install Dependencies
 
