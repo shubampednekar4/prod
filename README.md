@@ -1,6 +1,6 @@
 # Mini E-Commerce API
 
-A production-style Node.js REST API built with Express.js, PostgreSQL, Prisma ORM, and Google Gemini.
+A production-style Node.js REST API built with Express.js, PostgreSQL, Prisma ORM, and Groq.
 
 The application manages:
 
@@ -50,7 +50,6 @@ Examples:
 * Show all products
 * Show out of stock products
 * Show products in Electronics category
-* Show customers created this month
 
 Security measures:
 
@@ -69,7 +68,7 @@ Security measures:
 * Prisma ORM
 * Joi Validation
 * Winston Logger
-* Google Gemini API
+* Groq  API
 * Node Test Runner
 
 ---
@@ -115,10 +114,10 @@ Create a `.env` file in the root directory.
 
 ```env
 PORT=8080
-
+NODE_ENV=development
 DATABASE_URL=postgresql://postgres:<PASSWORD>@localhost:5432/mini_ecommerce
 
-GEMINI_API_KEY=your_gemini_api_key
+GROQ_API_KEY=your_groq_api_key
 ```
 
 ---
@@ -187,54 +186,6 @@ node --test
 
 ---
 
-## Sample API Endpoints
-
-### Create Customer
-
-```http
-POST /api/v1/customer
-```
-
-### Create Product
-
-```http
-POST /api/v1/product
-```
-
-### Get Products
-
-```http
-GET /api/v1/product?page=1&limit=10
-```
-
-### Create Order
-
-```http
-POST /api/v1/order
-```
-
-### Cancel Order
-
-```http
-PATCH /api/v1/order/:id/cancel
-```
-
-### Natural Language Query
-
-```http
-POST /api/v1/query
-```
-
-Request:
-
-```json
-{
-  "query": "show products that are out of stock"
-}
-```
-
----
-
 ## AI Query Security
 
 The AI query module includes several safety layers:
@@ -265,10 +216,7 @@ The AI query module includes several safety layers:
 * Authentication & Authorization
 * Docker Support
 * OpenAPI / Swagger Documentation
-* Caching Layer (Redis)
-* Background Jobs
 * CI/CD Pipeline
-* Integration Tests
 * Role Based Access Control
 
 ---
